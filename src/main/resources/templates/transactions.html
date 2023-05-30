@@ -19,7 +19,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="transaction, trStat : ${transactions}">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Initial balance</td>
+                <td>0</td>
+            </tr>
+            <tr th:each="transaction : ${transactions}">
                 <td th:text="${transaction.date}"></td>
                 <td th:text="${transaction.observation}"></td>
                 <td th:if="${transaction.financialType.type=='encashment'}" th:text="${transaction.amount}"></td>

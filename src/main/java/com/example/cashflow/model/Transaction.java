@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "bank_financial_records")
@@ -15,15 +14,21 @@ public class Transaction implements Comparable<Transaction>{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "fin_rec_date")
-    private LocalDate date;
+    @Column(name = "date")
+    private LocalDate a_date;
 
     @Column(name = "fin_type")
     private FinancialType financialType;
-    private BigDecimal amount;
-    private String observation;
 
-    private BigDecimal balance;
+    @Column(name = "amount")
+    private BigDecimal d_amount;
+
+    @Column(name = "obs")
+    private String b_observation;
+
+    @Column(name = "balance")
+
+    private BigDecimal g_balance;
 
     public Long getId() {
         return id;
@@ -34,11 +39,11 @@ public class Transaction implements Comparable<Transaction>{
     }
 
     public LocalDate getDate() {
-        return date;
+        return a_date;
     }
 
     public void setDate(LocalDate date) {
-        this.date = date;
+        this.a_date = date;
     }
 
     public FinancialType getFinancialType() {
@@ -50,42 +55,42 @@ public class Transaction implements Comparable<Transaction>{
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return d_amount;
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.d_amount = amount;
     }
 
     public String getObservation() {
-        return observation;
+        return b_observation;
     }
 
     public void setObservation(String observation) {
-        this.observation = observation;
+        this.b_observation = observation;
     }
 
     public BigDecimal getBalance() {
-        return balance;
+        return g_balance;
     }
 
     public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+        this.g_balance = balance;
     }
 
     public void updateBalance(BigDecimal initialBalance){
         if(this.financialType==FinancialType.ENCASHMENT){
-            this.balance=initialBalance.add(this.amount);
-        } else this.balance=initialBalance.subtract(this.amount);
+            this.g_balance =initialBalance.add(this.d_amount);
+        } else this.g_balance =initialBalance.subtract(this.d_amount);
     }
 
 
 
     @Override
     public int compareTo(Transaction t) {
-        if (this.date.isBefore(t.getDate())){
+        if (this.a_date.isBefore(t.getDate())){
             return -1;
-        } else if (this.date.isAfter(t.getDate())){
+        } else if (this.a_date.isAfter(t.getDate())){
             return 1;
         } else return 0;
     }
