@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Controller
 public class TransactionsController {
+    private static final BigDecimal INITIAL_BALANCE=BigDecimal.valueOf(100.50).setScale(2, RoundingMode.HALF_UP);
 
     @Autowired
     private TransactionsService transactionsService;
@@ -18,6 +22,7 @@ public class TransactionsController {
     @GetMapping("transactions")
     public String getRegistrations(Model model){
         List<Transaction> transactions=transactionsService.findAll();
+        transactionsService.updateBalance(INITIAL_BALANCE);
 
 
 //        Transaction first= transactions.get(1);
@@ -28,6 +33,7 @@ public class TransactionsController {
 //        model.addAttribute("observation",first.getObservation());
 //        model.addAttribute("type",first.getFinancialType().ordinal());
 //        model.addAttribute("amount",first.getAmount());
+        model.addAttribute("initial",INITIAL_BALANCE);
         model.addAttribute("transactions",transactions);
 
         return "transactions";

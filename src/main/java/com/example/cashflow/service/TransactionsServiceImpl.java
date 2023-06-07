@@ -18,20 +18,34 @@ public class TransactionsServiceImpl implements TransactionsService{
     @Override
     public List<Transaction> findAll() {
         List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
-        updateBalances(BigDecimal.ZERO,sortedTransactions);
+//
         return sortedTransactions;
     }
 
-    public void updateBalances(BigDecimal initialBalance, List<Transaction> transactions){
+    @Override
+    public void updateBalance(BigDecimal initial) {
+        List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
         for (Transaction transaction :
-                transactions) {
-            int currentIndex=transactions.indexOf(transaction);
+                sortedTransactions) {
+            int currentIndex=sortedTransactions.indexOf(transaction);
             if (currentIndex == 0) {
-                transaction.updateBalance(initialBalance);
+                transaction.updateBalance(initial);
             } else {
-                transaction.updateBalance(transactions.get(currentIndex-1).getBalance());
+                transaction.updateBalance(sortedTransactions.get(currentIndex-1).getBalance());
             }
         }
-
     }
+
+//    public void updateBalances(BigDecimal initialBalance, List<Transaction> transactions){
+//        for (Transaction transaction :
+//                transactions) {
+//            int currentIndex=transactions.indexOf(transaction);
+//            if (currentIndex == 0) {
+//                transaction.updateBalance(initialBalance);
+//            } else {
+//                transaction.updateBalance(transactions.get(currentIndex-1).getBalance());
+//            }
+//        }
+//
+//    }
 }

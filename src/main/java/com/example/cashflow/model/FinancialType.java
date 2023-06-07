@@ -1,8 +1,10 @@
 package com.example.cashflow.model;
 
 public enum FinancialType {
-    ENCASHMENT("encashment"),
-    PAYMENT("payment");
+
+    PAYMENT("payment"),
+    ENCASHMENT("encashment");
+    ;
 
     private String type;
 
