@@ -25,21 +25,13 @@ public class TransactionsController {
         transactionsService.updateBalance(INITIAL_BALANCE);
 
 
-//        Transaction first= transactions.get(1);
-//        System.out.println(first.getDate());
-//        System.out.println(first.getFinancialType());
-//        System.out.println(first.getAmount());
-//        model.addAttribute("date",first.getDate());
-//        model.addAttribute("observation",first.getObservation());
-//        model.addAttribute("type",first.getFinancialType().ordinal());
-//        model.addAttribute("amount",first.getAmount());
         model.addAttribute("initial",INITIAL_BALANCE);
         model.addAttribute("transactions",transactions);
 
         return "transactions";
     }
 
-    @GetMapping("welcome")
+    @GetMapping("/")
     public String welcome(Model model){
         model.addAttribute("message","Welcome User");
         return "index";

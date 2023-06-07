@@ -17,14 +17,15 @@ public class TransactionsServiceImpl implements TransactionsService{
 
     @Override
     public List<Transaction> findAll() {
-        List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
-//
-        return sortedTransactions;
+        //
+        return transactionsRepository.findAll().stream().sorted().toList();
+
     }
 
     @Override
     public void updateBalance(BigDecimal initial) {
-        List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
+//        List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
+        List<Transaction> sortedTransactions=findAll();
         for (Transaction transaction :
                 sortedTransactions) {
             int currentIndex=sortedTransactions.indexOf(transaction);
@@ -33,6 +34,7 @@ public class TransactionsServiceImpl implements TransactionsService{
             } else {
                 transaction.updateBalance(sortedTransactions.get(currentIndex-1).getBalance());
             }
+            transactionsRepository.save(transaction);
         }
     }
 
