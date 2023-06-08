@@ -92,6 +92,8 @@ public class Transaction implements Comparable<Transaction>{
             return -1;
         } else if (this.a_date.isAfter(t.getDate())){
             return 1;
+        } else if(this.financialType==FinancialType.ENCASHMENT){
+            return -1;
         } else return 0;
     }
 }

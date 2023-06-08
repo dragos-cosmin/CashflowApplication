@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="transactions/add">Add transaction</a>
+</nav>
 <div class="row">
     <div class="col-md-10">
         <table class="table">
@@ -33,7 +36,8 @@
                 <td th:if="${transaction.financialType.type=='encashment'}"></td>
                 <td th:if="${transaction.financialType.type=='payment'}"></td>
                 <td th:if="${transaction.financialType.type=='payment'}" th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.balance}"></td>
+                <td th:if="${transaction.balance>=0}" th:text="${transaction.balance}"></td>
+                <td th:if="${transaction.balance<0}" style="color:red;" th:text="${transaction.balance}"></td>
 
             </tr>
 

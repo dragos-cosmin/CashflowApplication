@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,7 +21,7 @@ public class TransactionsController {
     private TransactionsService transactionsService;
 
     @GetMapping("transactions")
-    public String getRegistrations(Model model){
+    public String getTransactions(Model model){
         List<Transaction> transactions=transactionsService.findAll();
         transactionsService.updateBalance(INITIAL_BALANCE);
 
@@ -30,6 +31,23 @@ public class TransactionsController {
 
         return "transactions";
     }
+
+    @GetMapping("transactions/add")
+    public String transactionForm(Model model){
+        model.addAttribute("transaction",new Transaction());
+
+        return "transaction";
+    }
+
+    @PostMapping("transactions/add")
+    public String transactionSubmit(@ModelAttribute Transaction transaction,
+                                    Model model){
+        model.addAttribute("transaction",transaction);
+        transactionsService.save(transaction);
+        return "redirect:/transactions";
+    }
+
+
 
     @GetMapping("/")
     public String welcome(Model model){

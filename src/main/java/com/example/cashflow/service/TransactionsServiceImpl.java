@@ -38,6 +38,11 @@ public class TransactionsServiceImpl implements TransactionsService{
         }
     }
 
+    @Override
+    public void save(Transaction transaction) {
+        transactionsRepository.save(transaction);
+    }
+
 //    public void updateBalances(BigDecimal initialBalance, List<Transaction> transactions){
 //        for (Transaction transaction :
 //                transactions) {

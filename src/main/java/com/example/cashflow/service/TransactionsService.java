@@ -10,4 +10,6 @@ public interface TransactionsService {
     List<Transaction> findAll();
 
     void updateBalance(BigDecimal initial);
+
+    void save(Transaction transaction);
 }
