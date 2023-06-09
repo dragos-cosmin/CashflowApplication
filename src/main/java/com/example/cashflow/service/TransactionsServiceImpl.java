@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionsServiceImpl implements TransactionsService{
@@ -41,6 +42,11 @@ public class TransactionsServiceImpl implements TransactionsService{
     @Override
     public void save(Transaction transaction) {
         transactionsRepository.save(transaction);
+    }
+
+    @Override
+    public Optional<Transaction> findById(Long id) {
+        return transactionsRepository.findById(id);
     }
 
 //    public void updateBalances(BigDecimal initialBalance, List<Transaction> transactions){
