@@ -14,32 +14,37 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping(value = "/transactions")
 public class TransactionsController {
     private static final BigDecimal INITIAL_BALANCE=BigDecimal.valueOf(100.50).setScale(2, RoundingMode.HALF_UP);
 
     @Autowired
     private TransactionsService transactionsService;
 
-    @GetMapping("transactions")
-    public String getTransactions(@RequestParam(defaultValue = "false") boolean edit, Model model){
+    @GetMapping("")
+    public String getTransactions(@RequestParam(defaultValue = "false") boolean edit,
+                                  @RequestParam(defaultValue = "false") boolean delete,
+                                  Model model){
         List<Transaction> transactions=transactionsService.findAll();
         transactionsService.updateBalance(INITIAL_BALANCE);
 
         model.addAttribute("edit",edit);
+        model.addAttribute("delete",delete);
+
         model.addAttribute("initial",INITIAL_BALANCE);
         model.addAttribute("transactions",transactions);
 
         return "transactions";
     }
 
-    @GetMapping("transactions/add")
+    @GetMapping("/add")
     public String transactionForm(Model model){
         model.addAttribute("transaction",new Transaction());
 
         return "transaction";
     }
 
-    @PostMapping("transactions/add")
+    @PostMapping("/add")
     public String transactionSubmit(@ModelAttribute Transaction transaction,
                                     Model model){
         model.addAttribute("transaction",transaction);
@@ -47,7 +52,7 @@ public class TransactionsController {
         return "redirect:/transactions";
     }
 
-    @GetMapping("transactions/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String transactionEdit (@PathVariable Long id,
                                    Model model){
         Optional<Transaction> optTransaction=transactionsService.findById(id);
@@ -61,7 +66,7 @@ public class TransactionsController {
         return "transactionEdit";
     }
 
-    @PostMapping("transactions/edit/{id}")
+    @PostMapping("/edit/{id}")
     public String transactionEditSubmit(@ModelAttribute Transaction editedTransaction,
 
                                         Model model){
@@ -77,11 +82,15 @@ public class TransactionsController {
         return "redirect:/transactions";
     }
 
+    @GetMapping("/delete/{id}")
+    public String transactionDelete (@PathVariable Long id,
+                                   Model model){
+        transactionsService.deleteById(id);
 
-
-    @GetMapping("/")
-    public String welcome(Model model){
-        model.addAttribute("message","Welcome User");
-        return "index";
+        return "redirect:/transactions";
     }
+
+
+
+
 }

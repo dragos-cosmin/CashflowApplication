@@ -49,6 +49,11 @@ public class TransactionsServiceImpl implements TransactionsService{
         return transactionsRepository.findById(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        transactionsRepository.deleteById(id);
+    }
+
 //    public void updateBalances(BigDecimal initialBalance, List<Transaction> transactions){
 //        for (Transaction transaction :
 //                transactions) {

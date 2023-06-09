@@ -15,4 +15,6 @@ public interface TransactionsService {
     void save(Transaction transaction);
 
     Optional<Transaction> findById(Long id);
+
+    void deleteById(Long id);
 }
