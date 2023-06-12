@@ -16,7 +16,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping(value = "/transactions")
 public class TransactionsController {
-    private static final BigDecimal INITIAL_BALANCE=BigDecimal.valueOf(100.50).setScale(2, RoundingMode.HALF_UP);
+    private static final BigDecimal INITIAL_BALANCE=BigDecimal.valueOf(50673.04).setScale(2, RoundingMode.HALF_UP);
 
     @Autowired
     private TransactionsService transactionsService;

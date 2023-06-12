@@ -3,6 +3,7 @@ package com.example.cashflow.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -59,7 +60,7 @@ public class Transaction implements Comparable<Transaction>{
     }
 
     public void setAmount(BigDecimal amount) {
-        this.d_amount = amount;
+        this.d_amount = amount.setScale(2, RoundingMode.HALF_UP);
     }
 
     public String getObservation() {
@@ -80,8 +81,8 @@ public class Transaction implements Comparable<Transaction>{
 
     public void updateBalance(BigDecimal initialBalance){
         if(this.financialType==FinancialType.ENCASHMENT){
-            this.g_balance =initialBalance.add(this.d_amount);
-        } else this.g_balance =initialBalance.subtract(this.d_amount);
+            this.g_balance =initialBalance.add(this.d_amount).setScale(2,RoundingMode.HALF_UP);
+        } else this.g_balance =initialBalance.subtract(this.d_amount).setScale(2,RoundingMode.HALF_UP);
     }
 
 
