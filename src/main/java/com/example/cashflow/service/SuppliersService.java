@@ -10,4 +10,6 @@ import java.util.List;
 public interface SuppliersService {
 
     List<Supplier> findAll();
+
+    void save(Supplier supplier);
 }

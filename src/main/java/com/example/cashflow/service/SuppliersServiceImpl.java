@@ -21,4 +21,9 @@ public class SuppliersServiceImpl implements SuppliersService{
     public List<Supplier> findAll() {
         return suppliersRepository.findAll();
     }
+
+    @Override
+    public void save(Supplier supplier) {
+        suppliersRepository.save(supplier);
+    }
 }

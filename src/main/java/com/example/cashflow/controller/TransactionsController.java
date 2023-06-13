@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,10 @@ public class TransactionsController {
         List<Transaction> transactions=transactionsService.findAll();
         transactionsService.updateBalance(INITIAL_BALANCE);
 
+
         model.addAttribute("edit",edit);
         model.addAttribute("delete",delete);
+
 
         model.addAttribute("initial",INITIAL_BALANCE);
         model.addAttribute("transactions",transactions);

@@ -45,17 +45,17 @@
                     <td></td>
                     <td></td>
                     <td>Initial balance</td>
-                    <td th:text="${initial}">0</td>
+                    <td th:text="${#numbers.formatDecimal(initial,1,'COMMA',2,'POINT')}">0</td>
                 </tr>
                 <tr th:each="transaction : ${transactions}">
                     <td th:text="${transaction.date}"></td>
                     <td th:text="${transaction.observation}"></td>
-                    <td th:if="${transaction.financialType.type=='encashment'}" th:text="${transaction.amount}"></td>
+                    <td th:if="${transaction.financialType.type=='encashment'}" th:text="${#numbers.formatDecimal(transaction.amount,1,'COMMA',2,'POINT')}"></td>
                     <td th:if="${transaction.financialType.type=='encashment'}"></td>
                     <td th:if="${transaction.financialType.type=='payment'}"></td>
-                    <td th:if="${transaction.financialType.type=='payment'}" th:text="${transaction.amount}"></td>
-                    <td th:if="${transaction.balance>=0}" th:text="${transaction.balance}"></td>
-                    <td th:if="${transaction.balance<0}" style="color:red;" th:text="${transaction.balance}"></td>
+                    <td th:if="${transaction.financialType.type=='payment'}" th:text="${#numbers.formatDecimal(transaction.amount,1,'COMMA',2,'POINT')}"></td>
+                    <td th:if="${transaction.balance>=0}" th:text="${#numbers.formatDecimal(transaction.balance,1,'COMMA',2,'POINT')}"></td>
+                    <td th:if="${transaction.balance<0}" style="color:red;" th:text="${#numbers.formatDecimal(transaction.balance,1,'COMMA',2,'POINT')}"></td>
                     <td th:if="${edit==true}"><a th:href="@{/transactions/edit/{id}(id=${transaction.id})}" href="#"
                                                  class="btn btn-secondary">Select</a></td>
                     <td th:if="${delete==true}"><a th:href="@{/transactions/delete/{id}(id=${transaction.id})}" href="#"
