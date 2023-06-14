@@ -24,7 +24,7 @@ public class Supplier{
 
     @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL)
     private List<SupplierInvoice> invoices=new ArrayList<>();
-    private BigDecimal balance;
+    private BigDecimal balance=BigDecimal.ZERO;
 
     public Supplier() {
     }
@@ -37,7 +37,6 @@ public class Supplier{
         this.cui = cui;
         this.name = name;
         this.paymentDelay = paymentDelay;
-        this.balance=BigDecimal.ZERO;
     }
 
     public Supplier(String cui, String name, int paymentDelay, List<SupplierInvoice> invoices) {
@@ -97,12 +96,12 @@ public class Supplier{
     }
 
     public void updateBalance(){
-        BigDecimal newBalance=BigDecimal.ZERO;
+
         for (SupplierInvoice invoice :
                 this.invoices) {
-            newBalance=newBalance.add(invoice.getBalance()).setScale(2, RoundingMode.HALF_UP);
+            this.balance=this.balance.add(invoice.getBalance()).setScale(2, RoundingMode.HALF_UP);
         }
-        this.balance=newBalance;
+
     }
 
     public void addSupplierInvoice(SupplierInvoice invoice){

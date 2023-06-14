@@ -5,32 +5,37 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * @author dragos.cosmin
  **/
 
 @Entity
-public class SupplierInvoice {
+public class SupplierInvoice implements Comparable<SupplierInvoice>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String serial;
 
-    private LocalDate date;
+    @Column(name = "date")
+    private LocalDate a_date;
 
     @ManyToOne
-    private Supplier supplier;
-    private BigDecimal value;
-    private BigDecimal payments;
-    private BigDecimal balance;
+    private Supplier supplier=new Supplier();
+    private BigDecimal value=BigDecimal.ZERO;
+    private BigDecimal payments=BigDecimal.ZERO;
+    private BigDecimal balance=BigDecimal.ZERO;
 
     private LocalDate dueDate;
 
+    public SupplierInvoice() {
+    }
+
     public SupplierInvoice(String serial, LocalDate date, Supplier supplier, BigDecimal value) {
         this.serial = serial;
-        this.date = date;
+        this.a_date = date;
         this.dueDate=date.plusDays(supplier.getPaymentDelay());
         this.supplier = supplier;
         this.value = value.setScale(2, RoundingMode.HALF_UP);
@@ -40,7 +45,7 @@ public class SupplierInvoice {
 
     public SupplierInvoice(String serial, LocalDate date, Supplier supplier, BigDecimal value, BigDecimal payments) {
         this.serial = serial;
-        this.date = date;
+        this.a_date = date;
         this.dueDate=date.plusDays(supplier.getPaymentDelay());
         this.supplier = supplier;
         this.value = value;
@@ -70,6 +75,7 @@ public class SupplierInvoice {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+        this.dueDate=this.a_date.plusDays(supplier.getPaymentDelay());
     }
 
     public BigDecimal getValue() {
@@ -78,6 +84,7 @@ public class SupplierInvoice {
 
     public void setValue(BigDecimal value) {
         this.value = value;
+        this.balance=this.value.subtract(this.payments).setScale(2,RoundingMode.HALF_UP);
     }
 
     public BigDecimal getPayments() {
@@ -86,6 +93,7 @@ public class SupplierInvoice {
 
     public void setPayments(BigDecimal payments) {
         this.payments = payments;
+        this.balance=this.value.subtract(this.payments).setScale(2,RoundingMode.HALF_UP);
     }
 
     public BigDecimal getBalance() {
@@ -97,12 +105,12 @@ public class SupplierInvoice {
     }
 
     public LocalDate getDate() {
-        return date;
+        return a_date;
     }
 
     public void setDate(LocalDate date) {
-        this.date = date;
-        this.dueDate=date.plusDays(this.supplier.getPaymentDelay());
+        this.a_date = date;
+        this.dueDate= a_date.plusDays(this.supplier.getPaymentDelay());
     }
 
     public LocalDate getDueDate() {
@@ -115,4 +123,31 @@ public class SupplierInvoice {
     }
 
 
+    @Override
+    public int compareTo(SupplierInvoice s) {
+        if (this.a_date.isBefore(s.getDate())){
+            return -1;
+        } else if (this.a_date.isAfter(s.getDate())){
+            return 1;
+        } else return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        SupplierInvoice that = (SupplierInvoice) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
