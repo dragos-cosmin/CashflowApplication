@@ -1,19 +1,19 @@
 package com.example.cashflow.service;
 
-import com.example.cashflow.model.Supplier;
 import com.example.cashflow.model.SupplierInvoice;
 import com.example.cashflow.repository.PurchasesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * @author dragos.cosmin
  **/
 @Service
-public class PurchasesServiceImpl implements PurchasesService{
+public class PurchasesServiceImpl implements PurchasesService {
 
     @Autowired
     private PurchasesRepository purchasesRepository;
@@ -27,5 +27,10 @@ public class PurchasesServiceImpl implements PurchasesService{
     @Override
     public void save(SupplierInvoice supplierInvoice) {
         purchasesRepository.save(supplierInvoice);
+    }
+
+    @Override
+    public Optional<SupplierInvoice> findById(Long id) {
+        return purchasesRepository.findById(id);
     }
 }

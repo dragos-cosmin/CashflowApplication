@@ -6,5 +6,5 @@ import org.springframework.data.repository.ListCrudRepository;
 /**
  * @author dragos.cosmin
  **/
-public interface PurchasesRepository extends ListCrudRepository<SupplierInvoice,Long> {
+public interface PurchasesRepository extends ListCrudRepository<SupplierInvoice, Long> {
 }

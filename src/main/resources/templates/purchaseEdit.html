@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{/fragments/head}">Head</div>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="/purchases">Back</a>
+</nav>
+
+<form  th:action="@{/purchases/edit/{id}(id=${supplierInvoice.id})}" th:object="${supplierInvoice}" method="post">
+  <p>Date: <input type="text" th:field="*{date}"/></p>
+  <p>Serial: <input type="text" th:field="*{serial}" /></p>
+  <p>Supplier: <input list="suppliers_list" th:field="${supplierInvoice.supplier.id}">
+    <datalist id="suppliers_list">
+      <option th:each="supplier : ${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}">
+
+      </option>
+    </datalist>
+  </p>
+  <p>Value: <input type="text" th:field="*{value}" /></p>
+  <p>Payments: <input type="text" th:field="*{payments}" /></p>
+  <p><input type="submit" value="Submit" /><input type="reset" value="Reset"></p>
+</form>
+
+<div th:replace="~{/fragments/scripts}">Scripts</div>
+</body>
+</html>

@@ -12,7 +12,7 @@ import java.util.List;
  **/
 @Entity
 @Table(name = "suppliers")
-public class Supplier{
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +22,15 @@ public class Supplier{
 
     private int paymentDelay;
 
-    @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL)
-    private List<SupplierInvoice> invoices=new ArrayList<>();
-    private BigDecimal balance=BigDecimal.ZERO;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    private List<SupplierInvoice> invoices = new ArrayList<>();
+    private BigDecimal balance = BigDecimal.ZERO;
 
     public Supplier() {
     }
 
     public Supplier(String cui, String name) {
-        this(cui,name,0);
+        this(cui, name, 0);
     }
 
     public Supplier(String cui, String name, int paymentDelay) {
@@ -95,16 +95,16 @@ public class Supplier{
         this.paymentDelay = paymentDelay;
     }
 
-    public void updateBalance(){
+    public void updateBalance() {
 
         for (SupplierInvoice invoice :
                 this.invoices) {
-            this.balance=this.balance.add(invoice.getBalance()).setScale(2, RoundingMode.HALF_UP);
+            this.balance = this.balance.add(invoice.getBalance()).setScale(2, RoundingMode.HALF_UP);
         }
 
     }
 
-    public void addSupplierInvoice(SupplierInvoice invoice){
+    public void addSupplierInvoice(SupplierInvoice invoice) {
         this.invoices.add(invoice);
         updateBalance();
     }

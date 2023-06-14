@@ -1,8 +1,6 @@
 package com.example.cashflow.controller;
 
 import com.example.cashflow.model.Supplier;
-import com.example.cashflow.model.SupplierInvoice;
-import com.example.cashflow.model.Transaction;
 import com.example.cashflow.service.PurchasesService;
 import com.example.cashflow.service.SuppliersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author dragos.cosmin
@@ -24,7 +23,6 @@ public class SuppliersController {
 
     @Autowired
     private PurchasesService purchasesService;
-
 
 
     @GetMapping("")
@@ -42,17 +40,51 @@ public class SuppliersController {
     }
 
     @GetMapping("/add")
-    public String supplierForm(Model model){
-        model.addAttribute("supplier",new Supplier());
+    public String supplierForm(Model model) {
+        model.addAttribute("supplier", new Supplier());
 
         return "supplier";
     }
 
     @PostMapping("/add")
     public String supplierSubmit(@ModelAttribute Supplier supplier,
-                                    Model model){
-        model.addAttribute("supplier",supplier);
+                                 Model model) {
+        model.addAttribute("supplier", supplier);
         suppliersService.save(supplier);
+        return "redirect:/suppliers";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String supplierEdit(@PathVariable Long id,
+                               Model model) {
+        Optional<Supplier> optSupplier = suppliersService.findById(id);
+
+        optSupplier.ifPresent(supplier -> model.addAttribute("supplier", supplier));
+
+        return "supplierEdit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String supplierEditSubmit(@ModelAttribute Supplier editedSupplier,
+
+                                     Model model) {
+        model.addAttribute("supplier", editedSupplier);
+        Supplier supplier = suppliersService.findById(editedSupplier.getId()).get();
+        supplier.setCui(editedSupplier.getCui());
+        supplier.setName(editedSupplier.getName());
+        supplier.setPaymentDelay(editedSupplier.getPaymentDelay());
+        supplier.setBalance(editedSupplier.getBalance());
+        suppliersService.save(supplier);
+
+
+        return "redirect:/suppliers";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String supplierDelete(@PathVariable Long id,
+                                 Model model) {
+        suppliersService.deleteById(id);
+
         return "redirect:/suppliers";
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TransactionsServiceImpl implements TransactionsService{
+public class TransactionsServiceImpl implements TransactionsService {
 
     @Autowired
     private TransactionsRepository transactionsRepository;
@@ -26,14 +26,15 @@ public class TransactionsServiceImpl implements TransactionsService{
     @Override
     public void updateBalance(BigDecimal initial) {
 //        List<Transaction> sortedTransactions = transactionsRepository.findAll().stream().sorted().toList();
-        List<Transaction> sortedTransactions=findAll();
+        List<Transaction> sortedTransactions = findAll();
         for (Transaction transaction :
                 sortedTransactions) {
-            int currentIndex=sortedTransactions.indexOf(transaction);
+            int currentIndex = sortedTransactions.indexOf(transaction);
             if (currentIndex == 0) {
                 transaction.updateBalance(initial);
-            } else {
-                transaction.updateBalance(sortedTransactions.get(currentIndex-1).getBalance());
+            }
+            else {
+                transaction.updateBalance(sortedTransactions.get(currentIndex - 1).getBalance());
             }
             transactionsRepository.save(transaction);
         }

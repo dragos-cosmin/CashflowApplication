@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "bank_financial_records")
-public class Transaction implements Comparable<Transaction>{
+public class Transaction implements Comparable<Transaction> {
 
 
     @Id
@@ -30,6 +30,9 @@ public class Transaction implements Comparable<Transaction>{
     @Column(name = "balance")
 
     private BigDecimal g_balance;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SupplierInvoice supplierInvoice;
 
     public Long getId() {
         return id;
@@ -79,22 +82,37 @@ public class Transaction implements Comparable<Transaction>{
         this.g_balance = balance;
     }
 
-    public void updateBalance(BigDecimal initialBalance){
-        if(this.financialType==FinancialType.ENCASHMENT){
-            this.g_balance =initialBalance.add(this.d_amount).setScale(2,RoundingMode.HALF_UP);
-        } else this.g_balance =initialBalance.subtract(this.d_amount).setScale(2,RoundingMode.HALF_UP);
+    public SupplierInvoice getSupplierInvoice() {
+        return supplierInvoice;
     }
 
+    public void setSupplierInvoice(SupplierInvoice supplierInvoice) {
+        this.supplierInvoice = supplierInvoice;
+    }
+
+    public void updateBalance(BigDecimal initialBalance) {
+        if (this.financialType == FinancialType.ENCASHMENT) {
+            this.g_balance = initialBalance.add(this.d_amount).setScale(2, RoundingMode.HALF_UP);
+        }
+        else {
+            this.g_balance = initialBalance.subtract(this.d_amount).setScale(2, RoundingMode.HALF_UP);
+        }
+    }
 
 
     @Override
     public int compareTo(Transaction t) {
-        if (this.a_date.isBefore(t.getDate())){
+        if (this.a_date.isBefore(t.getDate())) {
             return -1;
-        } else if (this.a_date.isAfter(t.getDate())){
+        }
+        else if (this.a_date.isAfter(t.getDate())) {
             return 1;
-        } else if(this.financialType==FinancialType.ENCASHMENT){
+        }
+        else if (this.financialType == FinancialType.ENCASHMENT) {
             return -1;
-        } else return 0;
+        }
+        else {
+            return 0;
+        }
     }
 }

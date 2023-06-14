@@ -17,4 +17,6 @@ public interface SuppliersService {
     Optional<Supplier> findById(Long id);
 
     void updateBalance();
+
+    void deleteById(Long id);
 }
