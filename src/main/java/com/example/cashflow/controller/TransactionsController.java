@@ -1,6 +1,8 @@
 package com.example.cashflow.controller;
 
+import com.example.cashflow.model.BankAccount;
 import com.example.cashflow.model.Transaction;
+import com.example.cashflow.service.BankAccountService;
 import com.example.cashflow.service.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,15 @@ public class TransactionsController {
     @Autowired
     private TransactionsService transactionsService;
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
     @GetMapping("")
     public String getTransactions(@RequestParam(defaultValue = "false") boolean edit,
                                   @RequestParam(defaultValue = "false") boolean delete,
                                   Model model) {
         List<Transaction> transactions = transactionsService.findAll();
+        List<BankAccount> bankExtras=bankAccountService.findAll();
         transactionsService.updateBalance(INITIAL_BALANCE);
 
 
@@ -34,6 +40,7 @@ public class TransactionsController {
 
         model.addAttribute("initial", INITIAL_BALANCE);
         model.addAttribute("transactions", transactions);
+        model.addAttribute("bankExtras",bankExtras);
 
         return "transactions";
     }

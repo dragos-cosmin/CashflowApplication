@@ -34,6 +34,10 @@ public class Transaction implements Comparable<Transaction> {
     @ManyToOne(fetch = FetchType.LAZY)
     private SupplierInvoice supplierInvoice;
 
+    private boolean dayEnd=false;
+
+    private BigDecimal bankAccountBalance;
+
     public Long getId() {
         return id;
     }
@@ -88,6 +92,22 @@ public class Transaction implements Comparable<Transaction> {
 
     public void setSupplierInvoice(SupplierInvoice supplierInvoice) {
         this.supplierInvoice = supplierInvoice;
+    }
+
+    public boolean isDayEnd() {
+        return dayEnd;
+    }
+
+    public void setDayEnd(boolean dayEnd) {
+        this.dayEnd = dayEnd;
+    }
+
+    public BigDecimal getBankAccountBalance() {
+        return bankAccountBalance;
+    }
+
+    public void setBankAccountBalance(BigDecimal bankAccountBalance) {
+        this.bankAccountBalance = bankAccountBalance;
     }
 
     public void updateBalance(BigDecimal initialBalance) {

@@ -17,14 +17,16 @@
 
 
         </nav>
-        <table class="table">
+        <table class="table" style="width: 100%">
             <thead>
             <tr>
-                <th scope="col" style="width:100px;">Data</th>
+                <th scope="col" style="width:50px;">Data</th>
                 <th scope="col" style="width:100px;">Observations</th>
                 <th scope="col" style="width:100px;">Encashments</th>
                 <th scope="col" style="width:100px;">Payments</th>
                 <th scope="col" style="width:100px;">Balance</th>
+                <th scope="col" style="width:100px;">Bank Account Extras</th>
+                <th scope="col" style="width:100px;">Diffs</th>
             </tr>
             </thead>
         </table>
@@ -53,6 +55,12 @@
                     <td th:if="${transaction.financialType.type=='payment'}" th:text="${#numbers.formatDecimal(transaction.amount,1,'COMMA',2,'POINT')}" style="width:100px;"></td>
                     <td th:if="${transaction.balance>=0}" th:text="${#numbers.formatDecimal(transaction.balance,1,'COMMA',2,'POINT')}" style="width:100px;"></td>
                     <td th:if="${transaction.balance<0}" style="color:red; width:100px;" th:text="${#numbers.formatDecimal(transaction.balance,1,'COMMA',2,'POINT')}" ></td>
+                    <td th:if="${transaction.dayEnd==true} and ${transaction.bankAccountBalance}" th:text="${#numbers.formatDecimal(transaction.bankAccountBalance,1,'COMMA',2,'POINT')}">end of day</td>
+                    <td th:if="${transaction.dayEnd==true} and ${transaction.bankAccountBalance}">
+                        <span th:if="${transaction.bankAccountBalance.subtract(transaction.balance)<0}"  th:text="${#numbers.formatDecimal(transaction.bankAccountBalance.subtract(transaction.balance),1,'COMMA',2,'POINT')}" style="color:red;"></span>
+                        <span th:if="${transaction.bankAccountBalance.subtract(transaction.balance)>=0}"  th:text="${#numbers.formatDecimal(transaction.bankAccountBalance.subtract(transaction.balance),1,'COMMA',2,'POINT')}"></span>
+
+                    </td>
                     <td th:if="${edit==true}"><a th:href="@{/transactions/edit/{id}(id=${transaction.id})}" href="#"
                                                  class="btn btn-secondary">Select</a></td>
                     <td th:if="${delete==true}"><a th:href="@{/transactions/delete/{id}(id=${transaction.id})}" href="#"

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{/fragments/head}">Head</div>
+<body>
+
+    <div class="container sticky-top" style="background-color:#9fd3c7;">
+        <nav class="navbar navbar-expand-md ">
+            <a class="navbar-brand" href="#">Bank Account Extras</a>
+
+                <div class="navbar-nav">
+                    <a class="nav-link" href="bankAccount/add">Add Bank Extras</a>
+                    <a class="nav-link" href="bankAccount?edit=true">Edit Bank Extras</a>
+                    <a class="nav-link" href="bankAccount?delete=true">Delete Bank Extras</a>
+                    <a class="nav-link" href="/">Exit</a>
+                </div>
+
+
+        </nav>
+        <table class="table" style="width: 50%">
+            <thead>
+            <tr>
+                <th scope="col" style="width:50px;">Date</th>
+                <th scope="col" style="width:50px;">Balance</th>
+
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+    <div class="container">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table" style="width: 50%">
+
+                <tbody>
+
+                <tr th:each="bankExtra : ${extras}">
+                    <td th:text="${bankExtra.date}" style="width:50px;"></td>
+                    <td th:if=${bankExtra.balance!=null} th:text="${#numbers.formatDecimal(bankExtra.balance,1,'COMMA',2,'POINT')}" style="width:50px;"></td>
+                    <td th:if=${bankExtra.balance==null} style="width:50px;">0</td>
+                    <td th:if="${edit==true}"><a th:href="@{/bankAccount/edit/{id}(id=${bankExtra.id})}" href="#"
+                                                 class="btn btn-secondary">Select</a></td>
+                    <td th:if="${delete==true}"><a th:href="@{/bankAccount/delete/{id}(id=${bankExtra.id})}" href="#"
+                                                   class="btn btn-secondary">Delete</a></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    </div>
+    <div th:replace="~{/fragments/scripts}">Scripts</div>
+</body>
+</html>

@@ -15,6 +15,9 @@ public class TransactionsServiceImpl implements TransactionsService {
     @Autowired
     private TransactionsRepository transactionsRepository;
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
 
     @Override
     public List<Transaction> findAll() {
@@ -35,6 +38,10 @@ public class TransactionsServiceImpl implements TransactionsService {
             }
             else {
                 transaction.updateBalance(sortedTransactions.get(currentIndex - 1).getBalance());
+                if (sortedTransactions.get(currentIndex-1).getDate().isBefore(transaction.getDate())){
+                    sortedTransactions.get(currentIndex-1).setDayEnd(true);
+                    sortedTransactions.get(currentIndex-1).setBankAccountBalance(bankAccountService.findByDate(sortedTransactions.get(currentIndex-1).getDate()).getBalance());
+                }
             }
             transactionsRepository.save(transaction);
         }
