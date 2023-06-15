@@ -108,4 +108,12 @@ public class Supplier {
         this.invoices.add(invoice);
         updateBalance();
     }
+
+    public double getTotalInvoicesValue(){
+        return invoices.stream().mapToDouble(invoice -> invoice.getValue().doubleValue()).sum();
+    }
+
+    public double getTotalPayments(){
+        return invoices.stream().mapToDouble(invoice->invoice.getPayments().doubleValue()).sum();
+    }
 }

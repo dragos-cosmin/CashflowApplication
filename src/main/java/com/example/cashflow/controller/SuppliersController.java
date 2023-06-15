@@ -88,5 +88,23 @@ public class SuppliersController {
         return "redirect:/suppliers";
     }
 
+    @GetMapping("/details/{id}")
+    public String supplierDetails(@PathVariable Long id,
+                               Model model) {
+        Optional<Supplier> optSupplier = suppliersService.findById(id);
+        double[] totalValue = {0.0};
+        double[] totalPayments={0.0};
+
+        optSupplier.ifPresent(supplier -> {
+            model.addAttribute("supplier", supplier);
+            totalValue[0] =supplier.getTotalInvoicesValue();
+            totalPayments[0]=supplier.getTotalPayments();
+            model.addAttribute("totalValue",totalValue[0]);
+            model.addAttribute("totalPayments",totalPayments[0]);
+        });
+
+        return "supplierDetails";
+    }
+
 
 }

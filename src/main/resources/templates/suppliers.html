@@ -14,8 +14,6 @@
                     <a class="nav-link" href="suppliers?delete=true">Delete Supplier</a>
                     <a class="nav-link" href="/">Exit</a>
                 </div>
-
-
         </nav>
         <table class="table">
             <thead>
@@ -27,7 +25,6 @@
             </tr>
             </thead>
         </table>
-
     </div>
     <div class="container-fluid">
     <div class="row"></div>
@@ -43,6 +40,8 @@
                     <td th:text="${supplier.paymentDelay}" style="width:100px;"></td>
                     <td th:if=${supplier.balance!=null} th:text="${supplier.balance}" style="width:200px;"></td>
                     <td th:if=${supplier.balance==null} style="width:200px;">0</td>
+                    <td><a th:href="@{/suppliers/details/{id}(id=${supplier.id})}" href="#"
+                           class="btn btn-secondary">Details</a></td>
                     <td th:if="${edit==true}"><a th:href="@{/suppliers/edit/{id}(id=${supplier.id})}" href="#"
                                                  class="btn btn-secondary">Select</a></td>
                     <td th:if="${delete==true}"><a th:href="@{/suppliers/delete/{id}(id=${supplier.id})}" href="#"

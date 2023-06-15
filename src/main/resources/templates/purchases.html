@@ -33,36 +33,35 @@
 
     </div>
     <div class="container-fluid">
-    <div class="row"></div>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table">
 
-                <tbody>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
 
-                <tr th:each="supplierInvoice : ${purchases}">
-                    <td th:text="${supplierInvoice.date}" style="width:100px;"></td>
-                    <td th:text="${supplierInvoice.serial}" style="width:50px;"></td>
-                    <td th:text="${supplierInvoice.supplier.name}" style="width:100px;"></td>
-                    <td th:text="${supplierInvoice.value}" style="width:100px;"></td>
-                    <td th:if=${supplierInvoice.payments!=null} th:text="${supplierInvoice.payments}" style="width:100px;"></td>
-                    <td th:if=${supplierInvoice.payments==null} style="width:100px;">0</td>
-                    <td th:if=${supplierInvoice.balance!=null} th:text="${supplierInvoice.balance}" style="width:100px;"></td>
-                    <td th:if=${supplierInvoice.balance==null} style="width:100px;">0</td>
-                    <td th:if=${supplierInvoice.dueDate!=null} th:text="${supplierInvoice.dueDate}" style="width:100px;"></td>
-                    <td th:if=${supplierInvoice.dueDate==null} th:text="${supplierInvoice.date}" style="width:100px;">0</td>
-                    <td th:if="${edit==true}"><a th:href="@{/purchases/edit/{id}(id=${supplierInvoice.id})}" href="#"
-                                                 class="btn btn-secondary">Select</a></td>
-                    <td th:if="${delete==true}"><a th:href="@{/purchases/delete/{id}(id=${supplierInvoice.id})}" href="#"
-                                                   class="btn btn-secondary">Delete</a></td>
+                    <tbody>
 
-                </tr>
-                </tbody>
-            </table>
+                        <tr th:each="supplierInvoice : ${purchases}">
+                            <td th:text="${supplierInvoice.date}" style="width:100px;"></td>
+                            <td th:text="${supplierInvoice.serial}" style="width:50px;"></td>
+                            <td th:text="${supplierInvoice.supplier.name}" style="width:100px;"></td>
+                            <td th:text="${supplierInvoice.value}" style="width:100px;"></td>
+                            <td th:if=${supplierInvoice.payments!=null} th:text="${supplierInvoice.payments}" style="width:100px;"></td>
+                            <td th:if=${supplierInvoice.payments==null} style="width:100px;">0</td>
+                            <td th:if=${supplierInvoice.balance!=null} th:text="${supplierInvoice.balance}" style="width:100px;"></td>
+                            <td th:if=${supplierInvoice.balance==null} style="width:100px;">0</td>
+                            <td th:if=${supplierInvoice.dueDate!=null} th:text="${supplierInvoice.dueDate}" style="width:100px;"></td>
+                            <td th:if=${supplierInvoice.dueDate==null} th:text="${supplierInvoice.date}" style="width:100px;">0</td>
+                            <td th:if="${edit==true}"><a th:href="@{/purchases/edit/{id}(id=${supplierInvoice.id})}" href="#"
+                                                         class="btn btn-secondary">Select</a></td>
+                            <td th:if="${delete==true}"><a th:href="@{/purchases/delete/{id}(id=${supplierInvoice.id})}" href="#"
+                                                           class="btn btn-secondary">Delete</a></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-
-    </div>
-
 
     </div>
     <div th:replace="~{/fragments/scripts}">Scripts</div>

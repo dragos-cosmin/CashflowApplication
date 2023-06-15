@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author dragos.cosmin
@@ -35,5 +36,15 @@ public class BankAccountServiceImpl implements BankAccountService{
         } else return new BankAccount();
 //        return bankAccountRepository.findByDate(date);
 
+    }
+
+    @Override
+    public Optional<BankAccount> findById(Long id) {
+        return bankAccountRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bankAccountRepository.deleteById(id);
     }
 }

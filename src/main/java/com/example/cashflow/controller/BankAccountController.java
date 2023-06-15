@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author dragos.cosmin
@@ -20,7 +21,7 @@ public class BankAccountController {
     private BankAccountService bankAccountService;
 
     @GetMapping("")
-    public String getSuppliers(@RequestParam(defaultValue = "false") boolean edit,
+    public String getExtras(@RequestParam(defaultValue = "false") boolean edit,
                                @RequestParam(defaultValue = "false") boolean delete,
                                Model model) {
 
@@ -34,17 +35,50 @@ public class BankAccountController {
     }
 
     @GetMapping("/add")
-    public String supplierForm(Model model) {
+    public String extrasForm(Model model) {
         model.addAttribute("bankExtra", new BankAccount());
 
         return "bankAccountExtra";
     }
 
     @PostMapping("/add")
-    public String supplierSubmit(@ModelAttribute BankAccount bankExtra,
+    public String extrasSubmit(@ModelAttribute BankAccount bankExtra,
                                  Model model) {
         model.addAttribute("bankExtra", bankExtra);
         bankAccountService.save(bankExtra);
         return "redirect:/bankAccount";
     }
+
+    @GetMapping("/edit/{id}")
+    public String extrasEdit(@PathVariable Long id,
+                               Model model) {
+        Optional<BankAccount> optExtra = bankAccountService.findById(id);
+
+        optExtra.ifPresent(extra -> model.addAttribute("bankExtra", extra));
+
+        return "bankAccountExtraEdit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String extrasEditSubmit(@ModelAttribute BankAccount editedBankExtra,
+
+                                     Model model) {
+        model.addAttribute("bankExtra", editedBankExtra);
+        BankAccount extra = bankAccountService.findById(editedBankExtra.getId()).get();
+        extra.setDate(editedBankExtra.getDate());
+        extra.setBalance(editedBankExtra.getBalance());
+        bankAccountService.save(extra);
+
+
+        return "redirect:/bankAccount";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String extrasDelete(@PathVariable Long id,
+                                 Model model) {
+        bankAccountService.deleteById(id);
+
+        return "redirect:/bankAccount";
+    }
+
 }
