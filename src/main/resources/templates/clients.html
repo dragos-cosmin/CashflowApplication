@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{/fragments/head}">Head</div>
+<body>
+
+    <div class="container-fluid sticky-top" style="background-color:#ffb3ff;">
+        <nav class="navbar navbar-expand-md ">
+            <a class="navbar-brand" href="#">Clients</a>
+
+                <div class="navbar-nav">
+                    <a class="nav-link" href="clients/add">Add Client</a>
+                    <a class="nav-link" href="clients?edit=true">Edit Client</a>
+                    <a class="nav-link" href="clients?delete=true">Delete Client</a>
+                    <a class="nav-link" href="/">Exit</a>
+                </div>
+        </nav>
+        <table class="table" style="width:70%;">
+            <thead>
+            <tr>
+                <th scope="col" style="width:100px;">VAT no.</th>
+                <th scope="col" style="width:100px;">Name</th>
+                <th scope="col" style="width:100px;">Encashment delay</th>
+                <th scope="col" style="width:200px;">Balance</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="container-fluid">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+
+                <tbody>
+
+                <tr th:each="client : ${clients}">
+                    <td th:text="${client.cui}" style="width:100px;"></td>
+                    <td th:text="${client.name}" style="width:120px;"></td>
+                    <td th:text="${client.paymentDelay}" style="width:120px;"></td>
+                    <td th:if=${client.balance!=null} th:text="${client.balance}" style="width:200px;"></td>
+                    <td th:if=${client.balance==null} style="width:200px;">0</td>
+                    <td><a th:href="@{/clients/details/{id}(id=${client.id})}" href="#"
+                           class="btn btn-secondary">Details</a></td>
+                    <td th:if="${edit==true}"><a th:href="@{/clients/edit/{id}(id=${client.id})}" href="#"
+                                                 class="btn btn-secondary">Select</a></td>
+                    <td th:if="${delete==true}"><a th:href="@{/clients/delete/{id}(id=${client.id})}" href="#"
+                                                   class="btn btn-secondary">Delete</a></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    </div>
+    <div th:replace="~{/fragments/scripts}">Scripts</div>
+</body>
+</html>

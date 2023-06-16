@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{/fragments/head}">Head</div>
+<body>
+
+<div class="container-fluid sticky-top" style="background-color:#a2a8d3;">
+  <nav class="navbar navbar-expand-md ">
+    <a class="navbar-brand" href="#" th:text="${client.name}">Client Name</a>
+
+    <div class="navbar-nav">
+      <a class="nav-link" href="/clients">Back</a>
+    </div>
+  </nav>
+  <table class="table">
+    <thead>
+    <tr style="text-align: left;">
+      <th scope="col" style="width:100px;">Date</th>
+      <th scope="col" style="width:50px;">Serial</th>
+      <th scope="col" style="width:100px; ">Value</th>
+      <th scope="col" style="width:100px;">Encashments</th>
+      <th scope="col" style="width:100px;">Balance</th>
+      <th scope="col" style="width:100px;">Due date</th>
+
+    </tr>
+    </thead>
+  </table>
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+
+        <tbody>
+
+          <tr th:each="clientInvoice : ${client.invoices}">
+            <td th:text="${clientInvoice.date}" style="width:100px;"></td>
+            <td th:text="${clientInvoice.serial}" style="width:10px;"></td>
+            <td th:text="${clientInvoice.value}" style="width:100px;"></td>
+            <td th:if=${clientInvoice.payments!=null} th:text="${clientInvoice.payments}" style="width:100px;"></td>
+            <td th:if=${clientInvoice.payments==null} style="width:100px;"></td>
+            <td th:if=${clientInvoice.balance!=null} th:text="${clientInvoice.balance}" style="width:100px;"></td>
+            <td th:if=${clientInvoice.balance==null} style="width:100px;"></td>
+            <td th:if=${clientInvoice.dueDate!=null} th:text="${clientInvoice.dueDate}" style="width:100px;"></td>
+            <td th:if=${clientInvoice.dueDate==null} th:text="${clientInvoice.date}" style="width:100px;">0</td>
+
+          </tr>
+          <tr style="font-weight:bold;">
+            <td></td>
+            <td>Total: </td>
+            <td th:text="${totalValue}"></td>
+            <td th:text="${totalPayments}"></td>
+            <td th:text="${client.balance}"></td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div th:replace="~{/fragments/scripts}">Scripts</div>
+</body>
+</html>

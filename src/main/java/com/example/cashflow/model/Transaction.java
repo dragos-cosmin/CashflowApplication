@@ -34,6 +34,9 @@ public class Transaction implements Comparable<Transaction> {
     @ManyToOne(fetch = FetchType.LAZY)
     private SupplierInvoice supplierInvoice;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ClientInvoice clientInvoice;
+
     private boolean dayEnd=false;
 
     private BigDecimal bankAccountBalance;
@@ -92,6 +95,14 @@ public class Transaction implements Comparable<Transaction> {
 
     public void setSupplierInvoice(SupplierInvoice supplierInvoice) {
         this.supplierInvoice = supplierInvoice;
+    }
+
+    public ClientInvoice getClientInvoice() {
+        return clientInvoice;
+    }
+
+    public void setClientInvoice(ClientInvoice clientInvoice) {
+        this.clientInvoice = clientInvoice;
     }
 
     public boolean isDayEnd() {

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:replace="~{/fragments/head}">Head</div>
+<body>
+
+    <div class="container-fluid sticky-top" style="background-color:#ffb3ff;">
+        <nav class="navbar navbar-expand-md ">
+            <a class="navbar-brand" href="#">Sales</a>
+
+                <div class="navbar-nav">
+                    <a class="nav-link" href="sales/add">Add Sale</a>
+                    <a class="nav-link" href="sales?edit=true">Edit Sale</a>
+                    <a class="nav-link" href="sales?delete=true">Delete Sale</a>
+                    <a class="nav-link" href="/">Exit</a>
+                </div>
+
+
+        </nav>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" style="width:100px;">Date</th>
+                <th scope="col" style="width:50px;">Serial</th>
+                <th scope="col" style="width:100px;">Client</th>
+                <th scope="col" style="width:100px;">Value</th>
+                <th scope="col" style="width:100px;">Encashments</th>
+                <th scope="col" style="width:100px;">Balance</th>
+                <th scope="col" style="width:100px;">Due date</th>
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+
+                    <tbody>
+
+                        <tr th:each="clientInvoice : ${sales}">
+                            <td th:text="${clientInvoice.date}" style="width:100px;"></td>
+                            <td th:text="${clientInvoice.serial}" style="width:50px;"></td>
+                            <td th:text="${clientInvoice.client.name}" style="width:100px;"></td>
+                            <td th:text="${clientInvoice.value}" style="width:100px;"></td>
+                            <td th:if=${clientInvoice.payments!=null} th:text="${clientInvoice.payments}" style="width:100px;"></td>
+                            <td th:if=${clientInvoice.payments==null} style="width:100px;">0</td>
+                            <td th:if=${clientInvoice.balance!=null} th:text="${clientInvoice.balance}" style="width:100px;"></td>
+                            <td th:if=${clientInvoice.balance==null} style="width:100px;">0</td>
+                            <td th:if=${clientInvoice.dueDate!=null} th:text="${clientInvoice.dueDate}" style="width:100px;"></td>
+                            <td th:if=${clientInvoice.dueDate==null} th:text="${clientInvoice.date}" style="width:100px;">0</td>
+                            <td th:if="${edit==true}"><a th:href="@{/sales/edit/{id}(id=${clientInvoice.id})}" href="#"
+                                                         class="btn btn-secondary">Select</a></td>
+                            <td th:if="${delete==true}"><a th:href="@{/sales/delete/{id}(id=${clientInvoice.id})}" href="#"
+                                                           class="btn btn-secondary">Delete</a></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+    <div th:replace="~{/fragments/scripts}">Scripts</div>
+</body>
+</html>
